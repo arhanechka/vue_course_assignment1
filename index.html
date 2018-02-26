@@ -28,12 +28,12 @@
                 </div>
             </div>
         </section>
-        <section class="row controls">
+        <section class="row controls" v-if="!gameStatus">
             <div class="small-12 columns">
                 <button id="start-game" @click="startGame">START NEW GAME</button>
             </div>
         </section>
-        <section class="row controls">
+        <section class="row controls"v-if="gameStatus">
             <div class="small-12 columns">
                 <button id="attack" @click="attack(minDamage,maxDamage)">ATTACK</button>
                 <button id="special-attack" @click="attack(sMinDamage,sMaxDamage)">SPECIAL ATTACK</button>
@@ -61,12 +61,11 @@
             player: {
                 name: 'You',
                 health: 100,
-               },
+            },
             monster: {
                 name: 'Monster',
                 health: 100,
-                },
-
+            },
             gameStatus: false,
             minDamage: 5,
             maxDamage: 10,
@@ -75,12 +74,8 @@
             logText: ' was damaged with score ',
             log: []
         },
-        watch: {
-
-        },
         methods: {
             startGame() {
-                console.log("in start game")
                 this.player.health = 100;
                 this.monster.health = 100;
                 this.log = [];
@@ -88,33 +83,30 @@
             },
             styleHealth(health) {
                 backGround = "red"
-                if(health>5)
-                return "width: " + health + "%;"
-                else{
-                    return "width: " + health + "%; background-color: " +backGround   
+                if (health > 5)
+                    return "width: " + health + "%;"
+                else {
+                    return "width: " + health + "%; background-color: " + backGround
                 }
-
             },
             styleLog(log) {
                 if (log.indexOf('You') == -1) {
                     return "log ul monster-turn";
                 }
-                else{
-                    return "log ul player-turn";   
+                else {
+                    return "log ul player-turn";
                 }
-
             },
-            attack(min, max){
+            attack(min, max) {
                 this.personAttack(this.monster, min, max);
                 this.personAttack(this.player, min, max);
             },
             personAttack(attacked, min, max) {
-               this.endGame();
-               if(this.gameStatus){
-                this.log.unshift(attacked.name + this.logText
-                    + this.makeDamage(this.random(min, max), attacked));
+                this.endGame();
+                if (this.gameStatus) {
+                    this.log.unshift(attacked.name + this.logText
+                        + this.makeDamage(this.random(min, max), attacked));
                 }
-                
             },
             random(min, max) {
                 var value = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -133,7 +125,6 @@
                 else {
                     this.log.unshift(this.player.name + " heals himself for " + random);
                 }
-
             },
             giveUp() {
                 this.gameStatus = false;
@@ -141,16 +132,14 @@
                 this.log = [];
                 alert("Monster is won!")
             },
-             endGame() {
+            endGame() {
                 if (this.player.health <= 0 || this.monster.health <= 0) {
                     var winner;
                     this.player.health > this.monster.health ? winner = this.player : winner = this.monster
                     alert("game finished! " + winner.name + " won with score " + winner.health)
                     this.log.unshift("game finished! " + winner.name + " won with score " + winner.health)
-                    this.gameStatus=false;
-                   
+                    this.gameStatus = false;
                 }
-
             }
         }
     })
