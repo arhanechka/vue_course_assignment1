@@ -87,7 +87,12 @@
                 this.gameStatus = true;
             },
             styleHealth(health) {
+                backGround = "red"
+                if(health>5)
                 return "width: " + health + "%;"
+                else{
+                    return "width: " + health + "%; background-color: " +backGround   
+                }
 
             },
             styleLog(log) {
@@ -138,12 +143,26 @@
                 this.log = [];
                 alert("Monster is won!")
             },
+            checkHealth(person){
+                if( person.health < 0)
+                return 0;
+                else
+                return person.health; 
+            },
+
             endGame() {
                 if (this.player.health <= 0 || this.monster.health <= 0) {
                     var winner;
                     this.player.health > this.monster.health ? winner = this.player : winner = this.monster
-                    console.log(this.gameStatus)
+                    console.log(winner.health)
+                    console.log(this.player.health)
+                    console.log(this.monster.health)
+                    alert("game finished! " + winner.name + " won with score " + winner.health)
                     this.log.unshift("game finished! " + winner.name + " won with score " + winner.health)
+                    this.player.health = this.checkHealth(this.player);
+                    console.log("player health "+this.player.health)
+                    this.monster.health = this.checkHealth(this.monster);
+                    console.log("monster health "+this.monster.health )
                     this.gameStatus=false;
                    
                 }
