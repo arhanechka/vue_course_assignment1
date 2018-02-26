@@ -72,7 +72,7 @@
             maxDamage: 10,
             sMinDamage: 10,
             sMaxDamage: 20,
-            logText: ' hits with score ',
+            logText: ' was damaged with score ',
             log: []
         },
         watch: {
@@ -80,7 +80,7 @@
         },
         methods: {
             startGame() {
-                
+                console.log("in start game")
                 this.player.health = 100;
                 this.monster.health = 100;
                 this.log = [];
@@ -114,9 +114,7 @@
                 this.log.unshift(attacked.name + this.logText
                     + this.makeDamage(this.random(min, max), attacked));
                 }
-                else{
-                    this.startGame();
-                }
+                
             },
             random(min, max) {
                 var value = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -143,26 +141,12 @@
                 this.log = [];
                 alert("Monster is won!")
             },
-            checkHealth(person){
-                if( person.health < 0)
-                return 0;
-                else
-                return person.health; 
-            },
-
-            endGame() {
+             endGame() {
                 if (this.player.health <= 0 || this.monster.health <= 0) {
                     var winner;
                     this.player.health > this.monster.health ? winner = this.player : winner = this.monster
-                    console.log(winner.health)
-                    console.log(this.player.health)
-                    console.log(this.monster.health)
                     alert("game finished! " + winner.name + " won with score " + winner.health)
                     this.log.unshift("game finished! " + winner.name + " won with score " + winner.health)
-                    this.player.health = this.checkHealth(this.player);
-                    console.log("player health "+this.player.health)
-                    this.monster.health = this.checkHealth(this.monster);
-                    console.log("monster health "+this.monster.health )
                     this.gameStatus=false;
                    
                 }
